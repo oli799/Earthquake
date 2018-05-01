@@ -1,14 +1,19 @@
 package com.example.reideroliver.earthquake;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.icu.util.RangeValueIterator;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -25,7 +30,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
 
-    private final String url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+    private final String url_day = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+    private final  String url_week = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+    private final  String url_month= "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
 
     private MapView mapView;
     private MapboxMap mapboxMap;
@@ -34,10 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Quake> quakeList;
 
 
-    private int cLat = 0;
-    private int cLon = 0;
-
-    private int zoomlevel = 1;
+    private FloatingActionButton url_day_button;
+    private FloatingActionButton url_week_button;
+    private FloatingActionButton url_month_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +52,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+
+
+
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
 
         quakeList = new ArrayList<Quake>();
 
-        new getQuakes().execute();
+        new getQuakes().execute(url_day);
+
+
+        url_week_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+                new getQuakes().execute(url_week);
+
+            }
+        });
+
 
 
     }
 
 
-    private class getQuakes extends AsyncTask<Void, Void, ArrayList<Quake>> {
+    private class getQuakes extends AsyncTask<String, Void, ArrayList<Quake>> {
 
         private ProgressDialog progressDialog;
 
@@ -74,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         @Override
-        protected ArrayList<Quake> doInBackground(Void... voids) {
+        protected ArrayList<Quake> doInBackground(String... url) {
 
             HttpHandler sh = new HttpHandler();
 
-            String jsonStr = sh.makeServiceCall(url);
+            String jsonStr = sh.makeServiceCall(url[0]);
 
             Log.d("jshonresponse", "response from the url" + jsonStr);
 
@@ -197,7 +219,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -241,3 +262,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
+

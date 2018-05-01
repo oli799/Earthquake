@@ -14,4 +14,38 @@
         mapbox:mapbox_styleUrl="mapbox://styles/oli799/cjgj4hlqd00722so9g7k5ko1h"
         mapbox:mapbox_cameraZoom="1.4" />
 
+    <com.github.clans.fab.FloatingActionMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        mapbox:menu_showShadow="true"
+        mapbox:menu_fab_size="normal"
+        mapbox:menu_animationDelayPerItem="50"
+
+        >
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            mapbox:fab_size="mini"
+            mapbox:fab_label="Menu item 1"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            mapbox:fab_size="mini"
+            mapbox:fab_label="Menu item 2"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            mapbox:fab_size="mini"
+            mapbox:fab_label="Menu item 3"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
 </RelativeLayout>
